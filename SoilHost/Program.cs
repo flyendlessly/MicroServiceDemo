@@ -13,7 +13,7 @@ namespace SoilHost
             //主简仓开放端口    
             int mainSiloPort = 11111;
 
-            Console.WriteLine("Hello World!Yommy");
+            RunHost.RunMainAsync().Wait();
         }
     }
 }
