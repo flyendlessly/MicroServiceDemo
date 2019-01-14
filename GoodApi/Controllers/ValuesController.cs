@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Class1.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GoodApi.Controllers
 {
@@ -14,14 +16,19 @@ namespace GoodApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "这是一个商品value1", "value2" };
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            var item = new Goods
+            {
+                Id = id,
+                Content = $"{id}的关联的商品明细",
+            };
+            return JsonConvert.SerializeObject(item);
         }
 
         // POST api/values

@@ -6,9 +6,14 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
+          "Port": 10003
+        },
+        {
+          "Host": "localhost",
           "Port": 10001
         }
       ],
+      "ServiceName": "Even_Product",
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
@@ -19,9 +24,11 @@
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
       "Host": "localhost",
-      "Type": "Consul",
       "Port": 8500,
-      "ConfigurationKey": "Oceolot_A"
+      "Type": "Consul",
+      "Token": null,
+      "ConfigurationKey": null,
+      "PollingInterval": 0
     }
   }
 }

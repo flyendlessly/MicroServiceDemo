@@ -30,8 +30,8 @@ namespace OcelotDemo
             //Ocelot 依赖注入
             services
                 .AddOcelot()
-                .AddConsul()
-                .AddConfigStoredInConsul();
+                .AddConsul();
+            //    .AddConfigStoredInConsul();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
         }
@@ -48,7 +48,7 @@ namespace OcelotDemo
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseOcelot().Wait();//使用Ocelot中间件
             app.UseMvc();
             

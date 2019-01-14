@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Class1.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-namespace WebApi.Controllers
+namespace OrderApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,14 +16,19 @@ namespace WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "这是一个订单value1", "value2" };
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            var item = new Orders
+            {
+                Id = id,
+                Content = $"{id}的订单明细",
+            };
+            return JsonConvert.SerializeObject(item);
         }
 
         // POST api/values
