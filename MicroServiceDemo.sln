@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoilHost", "SoilHost\SoilHo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Class1", "Class1\Class1.csproj", "{802BFA2F-11FB-4F8C-8E6D-7D3F6D410E35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{D63E1015-CF05-494A-833E-9B1F29AB4556}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderApi", "WebApi\OrderApi.csproj", "{D63E1015-CF05-494A-833E-9B1F29AB4556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotDemo", "OcelotDemo\OcelotDemo.csproj", "{D57E79F2-E6DF-4FD1-9359-5A7C4D6138A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotDemo", "OcelotDemo\OcelotDemo.csproj", "{D57E79F2-E6DF-4FD1-9359-5A7C4D6138A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodApi", "GoodApi\GoodApi.csproj", "{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D57E79F2-E6DF-4FD1-9359-5A7C4D6138A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D57E79F2-E6DF-4FD1-9359-5A7C4D6138A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D57E79F2-E6DF-4FD1-9359-5A7C4D6138A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

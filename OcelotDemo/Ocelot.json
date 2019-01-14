@@ -17,6 +17,11 @@
     }
   ],
   "GlobalConfiguration": {
-
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Type": "Consul",
+      "Port": 8500,
+      "ConfigurationKey": "Oceolot_A"
+    }
   }
 }
