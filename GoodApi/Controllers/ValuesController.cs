@@ -48,5 +48,11 @@ namespace GoodApi.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("/health")]
+        public IActionResult Heathle()
+        {
+            return Ok();
+        }
     }
 }

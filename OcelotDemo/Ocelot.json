@@ -6,14 +6,14 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 10003
+          "Port": 10001
         },
         {
           "Host": "localhost",
-          "Port": 10001
+          "Port": 10003
         }
       ],
-      "ServiceName": "Even_Product",
+      "ServiceName": "API001",
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
@@ -21,14 +21,40 @@
       }
     }
   ],
+  "Aggregates": [],
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
+      "Host": "127.0.0.1",
       "Port": 8500,
       "Type": "Consul",
       "Token": null,
       "ConfigurationKey": null,
       "PollingInterval": 0
+    },
+    "RequestIdKey": null,
+    "DownstreamScheme": "http",
+    "RateLimitOptions": {
+      "ClientIdHeader": "ClientId",
+      "QuotaExceededMessage": "Too Many Requests!!!",
+      "RateLimitCounterPrefix": "ocelot",
+      "DisableRateLimitHeaders": false,
+      "HttpStatusCode": 429
+    },
+    "QoSOptions": {
+      "ExceptionsAllowedBeforeBreaking": 0,
+      "DurationOfBreak": 0,
+      "TimeoutValue": 0
+    },
+    "BaseUrl": null,
+    "LoadBalancerOptions": {
+      "Type": "LeastConnection",
+      "Key": null,
+      "Expiry": 0
+    },
+    "HttpHandlerOptions": {
+      "AllowAutoRedirect": false,
+      "UseCookieContainer": false,
+      "UseTracing": false
     }
   }
 }
