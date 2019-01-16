@@ -9,11 +9,12 @@
           "Port": 10001
         },
         {
-          "Host": "localhost",
+          "Host": "196.168.250.225",
           "Port": 10003
         }
       ],
-      "ServiceName": "API001",
+      "ServiceName": "APIService",
+      "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {

@@ -1,0 +1,45 @@
+{
+
+  "encrypt": "7TnJPB4lKtjEcCWWjN6jSA==",
+
+  "services": [
+
+    {
+
+      "id": "API002",
+
+      "name": "APIService",
+
+      "tags": [ "API002" ],
+
+      "address": "192.168.250.225",
+
+      "port": 10003,
+
+      "checks": [
+
+        {
+
+          "id": "API002_Check",
+
+          "name": "API002_Check",
+
+          "http": "http://192.168.250.225:10003/health",
+
+          "interval": "10s",
+
+          "tls_skip_verify": false,
+
+          "method": "GET",
+
+          "timeout": "1s"
+
+        }
+
+      ]
+
+    }
+
+  ]
+
+}

@@ -19,7 +19,7 @@ namespace GoodApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://localhost:10003")
+                .UseUrls("http://*:10003")
                 .UseStartup<Startup>();
     }
 }

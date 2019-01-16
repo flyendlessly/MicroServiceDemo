@@ -1,0 +1,45 @@
+{
+
+  "encrypt": "7TnJPB4lKtjEcCWWjN6jSA==",
+
+  "services": [
+
+    {
+
+      "id": "API001",
+
+      "name": "APIService",
+
+      "tags": [ "API001" ],
+
+      "address": "127.0.0.1",
+
+      "port": 10001,
+
+      "checks": [
+
+        {
+
+          "id": "API001_Check",
+
+          "name": "API001_Check",
+
+          "http": "http://127.0.0.1:10001/health",
+
+          "interval": "10s",
+
+          "tls_skip_verify": false,
+
+          "method": "GET",
+
+          "timeout": "1s"
+
+        }
+
+      ]
+
+    }
+
+  ]
+
+}
