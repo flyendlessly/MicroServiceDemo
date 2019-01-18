@@ -28,7 +28,7 @@ namespace OcelotDemo
                         .AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true)
                         .AddEnvironmentVariables();
                 })
-                .UseUrls("http://localhost:10000")
+                .UseUrls("http://*:10000")
                 .UseStartup<Startup>();
     }
 }
