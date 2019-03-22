@@ -17,7 +17,6 @@ namespace OrderApi
             var config = new ConfigurationBuilder()
                 .AddJsonFile("host.json", optional: true)
                 .Build();
-
             CreateWebHostBuilder(args, config).Build().Run();
         }
 

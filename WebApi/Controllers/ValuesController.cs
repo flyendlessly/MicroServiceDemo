@@ -101,7 +101,8 @@ namespace OrderApi.Controllers
                     message.From.Add(new MailboxAddress("yunfeizhishang2", "yunfeizhishang2@163.com"));
                     message.To.Add(new MailboxAddress("904044929", "904044929@qq.com"));
 
-                    message.Subject = string.Format("C#自动发送邮件测试 From geffzhang TO {0}", "904044929");
+                    message.Subject = string.Format("C#自动发送邮件测试 From" +
+                        " geffzhang TO {0}", "904044929");
                     message.Body = new TextPart("plain") { Text = "不好意思，我在测试程序，刚才把QQ号写错了，Sorry！" };
                     using (var client = new SmtpClient())
                     {

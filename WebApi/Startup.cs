@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using DapperExtensions.Mapper;
+using DapperExtensions;
+using MySql.Data.MySqlClient;
+
 namespace OrderApi
 {
     public class Startup
@@ -25,6 +29,11 @@ namespace OrderApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            
+
+            //services.AddDapperDataBase(ESqlDialect.MySQL, () => new MySqlConnection(Configuration.GetConnectionString("DefaultConnection")), true,
+            // typeof(PluralizedAutoClassMapper<>), new[] { typeof(Services.DASCustomClassMapper.BaseUserClassMapper).Assembly });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +56,8 @@ namespace OrderApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+
         }
     }
 }
