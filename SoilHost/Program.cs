@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace SoilHost
 {
@@ -12,6 +13,7 @@ namespace SoilHost
             int gatewayPort = 30000;
             //主简仓开放端口    
             int mainSiloPort = 11111;
+            //IServiceCollection
 
             RunHost.RunMainAsync().Wait();
         }
