@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Class1.Model;
+using Domain.Validations;
+using FluentValidation;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
@@ -36,8 +38,29 @@ namespace OrderApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Orders value)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AddOrderValidation validationRules = new AddOrderValidation();
+                    var result = validationRules.Validate(value);
+                    validationRules.ValidateAndThrow(value);
+                    if (!result.IsValid)
+                    {
+                        foreach (var failure in result.Errors)
+                        {
+                        }
+                    }
+                }
+
+                return Ok(value);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT api/values/5
@@ -52,6 +75,10 @@ namespace OrderApi.Controllers
         {
         }
 
+        /// <summary>
+        /// 心跳监测
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/health")]
         public IActionResult Heathle()
         {
@@ -116,7 +143,7 @@ namespace OrderApi.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch
             {
 
             }

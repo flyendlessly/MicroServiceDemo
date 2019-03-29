@@ -29,7 +29,6 @@ namespace OrderApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             //services.AddDapperDataBase(ESqlDialect.MySQL, () => new MySqlConnection(Configuration.GetConnectionString("DefaultConnection")), true,
             // typeof(PluralizedAutoClassMapper<>), new[] { typeof(Services.DASCustomClassMapper.BaseUserClassMapper).Assembly });
         }
