@@ -46,7 +46,6 @@ namespace OrderApi.Controllers
                 {
                     AddOrderValidation validationRules = new AddOrderValidation();
                     var result = validationRules.Validate(value);
-                    validationRules.ValidateAndThrow(value);
                     if (!result.IsValid)
                     {
                         foreach (var failure in result.Errors)
@@ -54,7 +53,7 @@ namespace OrderApi.Controllers
                         }
                     }
                 }
-
+                
                 return Ok(value);
             }
             catch
