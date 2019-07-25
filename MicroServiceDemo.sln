@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodApi", "GoodApi\GoodApi.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01Common", "01Common", "{44DAD053-BB2B-46E5-9946-22ED65C8A49F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperExtensions", "..\Framework\DapperExtensions\DapperExtensions.csproj", "{B05D8B26-9D59-434C-8B7C-EB6A9247C288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperExtensions", "Common\DapperExtensions\DapperExtensions.csproj", "{B05D8B26-9D59-434C-8B7C-EB6A9247C288}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02Repository", "02Repository", "{959BB748-68BB-479A-BDD5-F7B6EACBD626}"
 EndProject
