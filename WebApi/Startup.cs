@@ -42,8 +42,7 @@ namespace OrderApi
 
             //mvc + 验证
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFluentValidation()
-                ;
+                .AddFluentValidation();
             // override modelstate
             services.Configure<ApiBehaviorOptions>(
                 options => {
