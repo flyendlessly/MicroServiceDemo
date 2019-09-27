@@ -29,9 +29,9 @@ namespace SoilHost
             //var aa = demo();
 
 
-            DoSomething doSomething = new DoSomething(CommonDelegate.DoSomethingMethod);
-            doSomething += CommonDelegate.DoSomethingMethod2;
-            doSomething.Invoke();
+            //DoSomething doSomething = new DoSomething(CommonDelegate.DoSomethingMethod);
+            //doSomething += CommonDelegate.DoSomethingMethod2;
+            //doSomething.Invoke();
         }
 
 
