@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Dapper;
+//using Dapper;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System.Data;
@@ -27,7 +27,19 @@ namespace SoilHost
 
             //dapper demo
             //var aa = demo();
+            List<Class1.Model.Goods> LIST = new List<Class1.Model.Goods>();
+            Class1.Model.Goods goods = new Class1.Model.Goods();
+            for (int i = 0; i < 3; i++)
+            {
+                goods = new Class1.Model.Goods();
+                goods.Id = i;
+                goods.Content = "CES" + i.ToString();
+                LIST.Add(goods);
+
+
+            }
             a1();
+
         }
 
         private static async void a1()
@@ -46,7 +58,7 @@ namespace SoilHost
 
             using (IDbConnection connection = new MySqlConnection(constr))
             {
-                return connection.Query<record>("select * from sync_record").ToList();
+                return null; //connection.Query<record>("select * from sync_record").ToList();
             }
 
         }
