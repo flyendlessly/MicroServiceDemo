@@ -96,11 +96,12 @@ namespace LoginApi.Controllers
         /// 退出登录
         /// </summary>
         /// <returns></returns>
-        [HttpGet("logout")]
+        [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
         {
             try
             {
+                //删除Cookie
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return Ok();
             }

@@ -44,12 +44,12 @@ namespace LoginApi
 
             #region 添加认证Cookie信息
             //Cookie认证属于Form认证，并不属于HTTP标准验证。
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,o=>
-            //    {
-            //        o.Cookie.Name = "_AdminTicketCookie";
-            //        o.LoginPath = new PathString("/api/Login");
-            //    })
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                 {
+                     o.Cookie.Name = "_AdminTicketCookie";
+                     o.LoginPath = new PathString("/api/Login");
+                 });
 
             //openid
             //services.AddAuthentication(options =>
@@ -122,13 +122,13 @@ namespace LoginApi
             #endregion
 
             //IdentityServer4
-            InMemoryConfiguration.Configuration = this.Configuration;
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //开发时使用的签名
-                .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
-                .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
-                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
+            //InMemoryConfiguration.Configuration = this.Configuration;
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential() //开发时使用的签名
+            //    .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
+            //    .AddInMemoryClients(InMemoryConfiguration.GetClients())
+            //    .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
+            //    .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -138,10 +138,10 @@ namespace LoginApi
         {
             var log = logger.CreateLogger("LoginMain");
             //日志测试
-            app.Run(context => {
-                log.LogWarning("this is a test log");
-                return context.Response.WriteAsync("Hello Login. Take a look at your terminal to see the logging messages.");
-            });
+            //app.Run(context => {
+            //    log.LogWarning("this is a test log");
+            //    return context.Response.WriteAsync("Hello Login. Take a look at your terminal to see the logging messages.");
+            //});
 
             
             if (env.IsDevelopment())
@@ -152,7 +152,7 @@ namespace LoginApi
             {
                 app.UseHsts();
             }
-            //app.UseAuthentication(); //添加认证中间件
+            app.UseAuthentication(); //添加认证中间件
             //app.UseAuthorize();
             //处理401异常
             app.UseStatusCodePages(new StatusCodePagesOptions()
@@ -174,7 +174,7 @@ namespace LoginApi
                 }
             });
 
-            app.UseIdentityServer(); //IdentityServer4
+            //app.UseIdentityServer(); //IdentityServer4
 
             app.UseHttpsRedirection();
             app.UseMvc();
