@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Class1\Class1.csproj" />
+    <ProjectReference Include="..\Common\DapperExtensions\DapperExtensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
