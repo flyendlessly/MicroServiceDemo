@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginApi", "Login\LoginApi.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99Presentation", "99Presentation", "{9475DF97-0266-46E2-B5FC-E6A5A702148C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer", "GrpcServer\GrpcServer.csproj", "{FE08EA0D-496D-423F-9DE2-9610AFC0F649}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{13A81991-E155-40F7-AF7A-F7ADB257E586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13A81991-E155-40F7-AF7A-F7ADB257E586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13A81991-E155-40F7-AF7A-F7ADB257E586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE08EA0D-496D-423F-9DE2-9610AFC0F649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE08EA0D-496D-423F-9DE2-9610AFC0F649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE08EA0D-496D-423F-9DE2-9610AFC0F649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE08EA0D-496D-423F-9DE2-9610AFC0F649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{2F86D28D-FE30-47A4-8F89-FEC0E5670E9F} = {67D71C57-056F-4E61-82B0-59513C590D6F}
 		{6A4B1FBB-F1EE-4648-BD3D-6CDF3F9810C9} = {C8C7E6DE-3E53-4F7A-8926-BB7EE23ED502}
 		{13A81991-E155-40F7-AF7A-F7ADB257E586} = {233269D0-CF9D-4660-ABB4-9AFF4F5B72B3}
+		{FE08EA0D-496D-423F-9DE2-9610AFC0F649} = {9475DF97-0266-46E2-B5FC-E6A5A702148C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60F501E7-FB40-44D4-A550-BEFEB182C0F9}
