@@ -23,6 +23,7 @@ namespace LoginApi
     {
         public Startup(IConfiguration configuration, ILoggerFactory logger)
         {
+            //依赖注入
             Configuration = configuration;
         }
 
@@ -31,6 +32,7 @@ namespace LoginApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMemoryCache();//添加基于内存的缓存支持
 
             //防止CSRF
@@ -124,7 +126,7 @@ namespace LoginApi
             //IdentityServer4
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //开发时使用的签名
+                .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
                 .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())

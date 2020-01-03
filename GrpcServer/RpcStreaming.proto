@@ -1,0 +1,13 @@
+synatx = "proto3";
+
+service RpcStreamingService {
+  rpc GetStreamContent (StreamRequest) returns (stream StreamContent) {}
+}
+
+message StreamRequest {
+  string fileName = 1;
+}
+
+message StreamContent {
+  bytes content = 1;
+}

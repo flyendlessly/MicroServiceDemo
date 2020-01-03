@@ -7,6 +7,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
+using System.Collections.Concurrent;
+using System.Collections;
 
 namespace SoilHost
 {
@@ -27,11 +29,8 @@ namespace SoilHost
 
             //dapper demo
             //var aa = demo();
+            
 
-
-            //DoSomething doSomething = new DoSomething(CommonDelegate.DoSomethingMethod);
-            //doSomething += CommonDelegate.DoSomethingMethod2;
-            //doSomething.Invoke();
         }
 
 
@@ -57,6 +56,26 @@ namespace SoilHost
             public int count { get; set; }
         }
 
-
+        class Foo
+        {
+            int _answer;
+            bool _complete;
+            void A()
+            {
+                _answer = 123;
+                Thread.MemoryBarrier();    // Barrier 1
+                _complete = true;
+                Thread.MemoryBarrier();    // Barrier 2
+            }
+            void B()
+            {
+                Thread.MemoryBarrier();    // Barrier 3
+                if (_complete)
+                {
+                    Thread.MemoryBarrier();       // Barrier 4
+                    Console.WriteLine(_answer);
+                }
+            }
+        }
     }
 }

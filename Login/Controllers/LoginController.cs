@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace LoginApi.Controllers
 {
@@ -19,10 +20,14 @@ namespace LoginApi.Controllers
     public class LoginController : ControllerBase
     {
         ILogger<LoginController> logger;
+        IConfiguration Configuration;
 
-        public LoginController(ILogger<LoginController> logger)
+        public LoginController(ILogger<LoginController> logger, IConfiguration Configuration)
         {
             this.logger = logger;
+            this.Configuration = Configuration;
+            var aa = this.Configuration["demo"].ToString();
+            var aa1 = this.Configuration.GetSection("demo").ToString();
         }
 
         // GET: api/Login

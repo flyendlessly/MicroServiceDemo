@@ -14,6 +14,7 @@ namespace LoginApi
     {
         public static void Main(string[] args)
         {
+            
             var config = new ConfigurationBuilder()
                .AddJsonFile("host.json", optional: true)
                .Build();

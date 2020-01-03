@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grpc.Core;
+using System;
 
 namespace GrpcServer
 {
@@ -6,7 +7,13 @@ namespace GrpcServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //new Server
+            //{
+            //    Services = { RpcStreamingService.BindService(new RpcStreamingServiceImpl()) }, // 绑定我们的实现
+            //    Ports = { new ServerPort("localhost", 23333, ServerCredentials.Insecure) }
+            //}.Start();
+
+            Console.ReadKey();
         }
     }
 }
