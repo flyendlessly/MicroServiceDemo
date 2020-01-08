@@ -1,5 +1,5 @@
 synatx = "proto3";
-
+package GrpcServer;
 service RpcStreamingService {
   rpc GetStreamContent (StreamRequest) returns (stream StreamContent) {}
 }

@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GrpcServer
+namespace GrpcProtocol
 {
     //public class RpcStreamingServiceImpl : RpcStreamingService.RpcStreamingServiceBase
     //{

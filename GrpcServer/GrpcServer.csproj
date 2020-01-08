@@ -6,13 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.11.2" />
-    <PackageReference Include="Grpc" Version="2.24.0" />
     <Protobuf Include="**/*.proto" />
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Remove="HealthCheck - 复制.proto" />
+    <Protobuf Remove="RpcStreaming - 复制.proto" />
     <Protobuf Remove="RpcStreaming.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GrpcProtocol\GrpcProtocol.csproj" />
   </ItemGroup>
 
 </Project>
