@@ -7,6 +7,7 @@ namespace Class1.Model
 {
     public class Goods
     {
+        [Display(Name = "商品编号")]
         public int Id { get; set; }
         public string Content { get; set; }
     }
@@ -17,7 +18,7 @@ namespace Class1.Model
         public int Id { get; set; }
 
         [Display(Name ="订单内容")]
-        [Required(ErrorMessage = "订单内容= =不能为空")]
+        [Required(ErrorMessage = "订单内容不能为空")]
         public string Content { get; set; }
     }
 }

@@ -34,8 +34,20 @@ namespace GoodApi.Controllers
 
         // POST: api/Good
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Goods good)
         {
+            try
+            {
+                //if (good.IsObjectNull()) { return BadRequest("good object is null"); }
+                if (!ModelState.IsValid) { return BadRequest("Invalid model object"); }
+                //_repository.Owner.CreateOwner(owner);
+                //return CreatedAtRoute("OwnerById", new { id = owner.Id }, owner)
+                return Ok("as");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         // PUT: api/Good/5

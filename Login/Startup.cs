@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,6 +43,11 @@ namespace LoginApi
                 options.Cookie.Path = "/";
                 options.FormFieldName = "AntiForgery";
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            });
+
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy", builder => 
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             });
 
             #region 添加认证Cookie信息
@@ -156,7 +162,7 @@ namespace LoginApi
             }
             //app.UseAuthentication(); //添加认证中间件
             //app.UseAuthorize();
-            //处理401异常
+            //处理HTTP:401异常
             app.UseStatusCodePages(new StatusCodePagesOptions()
             {
                 HandleAsync = (context) =>
@@ -176,11 +182,26 @@ namespace LoginApi
                 }
             });
 
+            //处理全局异常
+            app.UseExceptionHandler(config=> {
+                config.Run(async context =>
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json";
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error != null)
+                    {
+                        var ex = error.Error;
+                        await context.Response.WriteJsonAsync(new {
+                        }.ToString());
+                    }
+                });
+            });
+
             app.UseIdentityServer(); //IdentityServer4
 
             app.UseHttpsRedirection();
             app.UseMvc();
-
 
         }
     }
