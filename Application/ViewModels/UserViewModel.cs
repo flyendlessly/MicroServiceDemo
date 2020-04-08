@@ -11,6 +11,9 @@ namespace Application.ViewModels
         [Key]
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// 账户名
+        /// </summary>
         [Required(ErrorMessage = "用户账户名不能为空")]
         [MinLength(2)]
         [MaxLength(100)]

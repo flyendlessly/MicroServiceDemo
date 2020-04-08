@@ -15,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace LoginApi.Controllers
 {
+    /// <summary>
+    /// 登录模块
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -48,6 +51,11 @@ namespace LoginApi.Controllers
             return "value";
         }
 
+        /// <summary>
+        /// 用户认证登录
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         // POST: api/Login
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -117,7 +125,7 @@ namespace LoginApi.Controllers
         }
 
         /// <summary>
-        /// 获取令牌
+        /// 获取令牌(JWT)
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -129,15 +137,16 @@ namespace LoginApi.Controllers
                 if(ModelState.IsValid)
                 {
                     //验证用户密码...(省略)
-                    model.Id = new Guid();
                     var admin = model;
-
                     if (admin != null)
                     {
                         var claims = new Claim[]
                         {
-                            new Claim(ClaimTypes.Name, admin.Account),
-                            new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
+                            //new Claim(ClaimTypes.Name, admin.Account),
+                            //new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
+                            new Claim(JwtRegisteredClaimNames.Sub,admin.Role),//Subject,
+                            new Claim(JwtRegisteredClaimNames.Jti,model.Id.ToString()),//JWT ID,JWT的唯一标识
+                            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.Integer64),//Issued At，JWT颁发的时间，采用标准unix时间，用于验证过期
                         };
                         var JwtSecurityKey = "this is my first jwt token demo";
                         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(JwtSecurityKey));
@@ -146,13 +155,13 @@ namespace LoginApi.Controllers
                         var expires = DateTime.Now.AddDays(28);
                         //token信息
                         var token = new JwtSecurityToken(
-                           issuer: @"https://localhost:44359",
-                           audience: "api", 
-                           claims: claims,
+                           issuer: @"jwt token demo",//jwt签发者,非必须
+                           audience: "api", //jwt的接收该方，非必须
+                           claims: claims,//声明集合
                            notBefore: authTime,
-                           expires: expires,
-                           signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
-                        //生成Token
+                           expires: expires,//指定token的生命周期，unix时间戳格式,非必须
+                           signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));//使用私钥进行签名加密
+                        //生成Token,生成最后的JWT字符串
                         string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
                         return Ok(new
                         {
@@ -166,6 +175,8 @@ namespace LoginApi.Controllers
                                 expires_at = new DateTimeOffset(expires).ToUnixTimeSeconds()
                             }
                         });
+
+                        //可以将token信息存入缓存
                     }
                 }
                 return Unauthorized();

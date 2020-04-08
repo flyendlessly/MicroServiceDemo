@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Application</name>
+    </assembly>
+    <members>
+        <member name="F:Application.MiddleWare.AuthMiddleware._next">
+            <summary>
+            http委托
+            </summary>
+        </member>
+        <member name="M:Application.MiddleWare.AuthMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Application.MiddleWare.AuthMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            验证授权
+            </summary>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Application.MiddleWare.LogDiagnostic">
+            <summary>
+            DiagnosticSource事件发布,DiagnosticSource相当于被观察者，发送消息给观察者们
+            </summary>
+        </member>
+        <member name="T:Application.MiddleWare.IDiagnosticProcessor">
+            <summary>
+            DiagnosticListener 事件消费处理接口
+            </summary>
+        </member>
+        <member name="T:Application.MiddleWare.TestDiagnosticProcessor">
+            <summary>
+            定义诊断器名为 TestDiagnosticListener 的 DiagnosticListener 事件消费处理逻辑
+            实现类中的 ListenerName 必须与对应 DiagnosticListener 的诊断器名一致
+            </summary>
+        </member>
+        <member name="T:Application.MiddleWare.DiagnosticListenerObserver">
+            <summary>
+            观察者,继承订阅所有类DiagnosticListener
+            </summary>
+        </member>
+        <member name="T:Application.MiddleWare.DiagnosticEventObserver">
+            <summary>
+            根据触发的事件名（value.Key）和已订阅的事件处理集合（_eventCollection）进行匹对查找，匹配上的通过反射执行对应的消费方法
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.UserViewModel.Account">
+            <summary>
+            账户名
+            </summary>
+        </member>
+    </members>
+</doc>

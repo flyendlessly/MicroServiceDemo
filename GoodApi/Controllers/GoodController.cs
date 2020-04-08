@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Class1.Model;
+using GoodApi.Filter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace GoodApi.Controllers
@@ -13,6 +15,10 @@ namespace GoodApi.Controllers
     [ApiController]
     public class GoodController : ControllerBase
     {
+        public GoodController()
+        {
+
+        }
         // GET: api/Good
         [HttpGet]
         public IEnumerable<string> Get()
@@ -32,14 +38,16 @@ namespace GoodApi.Controllers
             return JsonConvert.SerializeObject(item);
         }
 
+
         // POST: api/Good
         [HttpPost]
+        //[ModelValidation]
         public IActionResult Post([FromBody] Goods good)
         {
             try
             {
                 //if (good.IsObjectNull()) { return BadRequest("good object is null"); }
-                if (!ModelState.IsValid) { return BadRequest("Invalid model object"); }
+                //if (!ModelState.IsValid) { return BadRequest("Invalid model object"); }
                 //_repository.Owner.CreateOwner(owner);
                 //return CreatedAtRoute("OwnerById", new { id = owner.Id }, owner)
                 return Ok("as");

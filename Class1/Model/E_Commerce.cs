@@ -9,6 +9,7 @@ namespace Class1.Model
     {
         [Display(Name = "商品编号")]
         public int Id { get; set; }
+        [Required()]
         public string Content { get; set; }
     }
 

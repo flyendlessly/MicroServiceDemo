@@ -1,0 +1,23 @@
+2020-03-04 17:46:09.489 +08:00 [INF] Starting web host.
+2020-03-04 17:46:10.143 +08:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-03-04 17:46:10.843 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger  
+2020-03-04 17:46:10.928 +08:00 [INF] Request finished in 87.581ms 301 
+2020-03-04 17:46:10.943 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/index.html  
+2020-03-04 17:46:11.067 +08:00 [INF] Request finished in 124.6978ms 200 text/html;charset=utf-8
+2020-03-04 17:46:11.107 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/swagger-ui.css  
+2020-03-04 17:46:11.127 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/swagger-ui-bundle.js  
+2020-03-04 17:46:11.174 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/swagger-ui-standalone-preset.js  
+2020-03-04 17:46:11.202 +08:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2020-03-04 17:46:11.215 +08:00 [INF] Request finished in 107.8272ms 200 text/css
+2020-03-04 17:46:11.228 +08:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2020-03-04 17:46:11.229 +08:00 [INF] Request finished in 54.6519ms 200 application/javascript
+2020-03-04 17:46:11.328 +08:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2020-03-04 17:46:11.329 +08:00 [INF] Request finished in 201.5716ms 200 application/javascript
+2020-03-04 17:46:11.933 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/v1/swagger.json  
+2020-03-04 17:46:11.968 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/favicon-32x32.png  
+2020-03-04 17:46:11.969 +08:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2020-03-04 17:46:11.969 +08:00 [INF] Request finished in 0.711ms 200 image/png
+2020-03-04 17:46:11.982 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:44359/swagger/favicon-16x16.png  
+2020-03-04 17:46:11.983 +08:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2020-03-04 17:46:11.983 +08:00 [INF] Request finished in 0.728ms 200 image/png
+2020-03-04 17:46:12.213 +08:00 [INF] Request finished in 280.1629ms 200 application/json;charset=utf-8

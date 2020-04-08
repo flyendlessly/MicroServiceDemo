@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.MiddleWare;
+using Class1.Model;
+using IoC;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -17,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace LoginApi
 {
@@ -33,7 +38,6 @@ namespace LoginApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddMemoryCache();//添加基于内存的缓存支持
 
             //防止CSRF
@@ -44,12 +48,16 @@ namespace LoginApi
                 options.FormFieldName = "AntiForgery";
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
+            //CORS
+            //services.AddCors(options => {
+            //    options.AddPolicy("CorsPolicy", builder => 
+            //    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            //});
 
-            services.AddCors(options => {
-                options.AddPolicy("CorsPolicy", builder => 
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            });
+            // .NET Native DI Abstraction
+            RegisterServices(services);
 
+            #region 认证
             #region 添加认证Cookie信息
             //Cookie认证属于Form认证，并不属于HTTP标准验证。
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -128,17 +136,66 @@ namespace LoginApi
             //    // options.Events.OnRedirectToAuthorizationEndpoint = context => context.Response.Redirect(context.RedirectUri);
             //});
             #endregion
+            #endregion
+
+            #region 授权
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("System", policy => policy.RequireClaim("SystemType").Build());
+            //    options.AddPolicy("Client", policy => policy.RequireClaim("ClientType").Build());
+            //    options.AddPolicy("Admin", policy => policy.RequireClaim("AdminType").Build());
+            //});
+            #endregion
+
 
             //IdentityServer4
-            InMemoryConfiguration.Configuration = this.Configuration;
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
-                .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
-                .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
-                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
+            //InMemoryConfiguration.Configuration = this.Configuration;
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
+            //    .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
+            //    .AddInMemoryClients(InMemoryConfiguration.GetClients())
+            //    .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
+            //    .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //swagger
+            services.AddSwaggerGen(options=>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "EvenMC:登录模块服务",
+                    Version="v1",
+                    Description="用户身份验证、授权、token获取",
+                    Contact=new OpenApiContact()
+                    {
+                        Name="Even Wang", Email="904044929@qq.com",Url= new Uri("https://blog.csdn.net/wyf1554624584")
+                    },
+                });
+                options.DocInclusionPredicate((docName, description) => true);
+                var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+                //添加注释功能
+                options.IncludeXmlComments(Path.Combine(basePath, "LoginApi.xml"),true);
+                options.IncludeXmlComments(Path.Combine(basePath, "Application.xml"),true);
+                //手动高亮
+                //添加header验证信息
+                //options.OperationFilter<SwaggerHeader>();
+                var bearerScheme = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization",
+                    Name = "Authorization",//jwt默认的参数名称
+                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
+                    Type = SecuritySchemeType.ApiKey
+                };
+                //添加一个必须的全局安全信息，[待证实]和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    { bearerScheme, new List<string>()}
+                });
+                options.AddSecurityDefinition("Bearer", bearerScheme);
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";//设置时间格式
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -182,27 +239,22 @@ namespace LoginApi
                 }
             });
 
-            //处理全局异常
-            app.UseExceptionHandler(config=> {
-                config.Run(async context =>
-                {
-                    context.Response.StatusCode = 500;
-                    context.Response.ContentType = "application/json";
-                    var error = context.Features.Get<IExceptionHandlerFeature>();
-                    if (error != null)
-                    {
-                        var ex = error.Error;
-                        await context.Response.WriteJsonAsync(new {
-                        }.ToString());
-                    }
-                });
-            });
+            //处理全局异常 
+            app.UseCustomExceptionMiddleware();
 
-            app.UseIdentityServer(); //IdentityServer4
-
+            //app.UseIdentityServer(); //IdentityServer4
             app.UseHttpsRedirection();
+            //app.UseMiddleware<AuthMiddleware>();//自定义Auth验证缓存中间件，Login控制器暂时没将token存入缓存
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EvenMC:登录模块服务"); });
             app.UseMvc();
+            //app.UseStaticFiles();//用于访问wwwroot下的文件 
+        }
 
+        private static void RegisterServices(IServiceCollection services)
+        {
+            // Adding dependencies from another layers (isolated from Presentation)
+            NativeInjectorBootStrapper.RegisterServices(services);
         }
     }
 }

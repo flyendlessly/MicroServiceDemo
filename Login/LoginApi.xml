@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LoginApi</name>
+    </assembly>
+    <members>
+        <member name="T:LoginApi.Controllers.LoginController">
+            <summary>
+            登录模块
+            </summary>
+        </member>
+        <member name="M:LoginApi.Controllers.LoginController.Login(Application.ViewModels.UserViewModel)">
+            <summary>
+            用户认证登录
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.Controllers.LoginController.Logout">
+            <summary>
+            退出登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.Controllers.LoginController.Token(Application.ViewModels.UserViewModel)">
+            <summary>
+            获取令牌(JWT)
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.InMemoryConfiguration.GetApiResources">
+            <summary>
+            Define which APIs will use this IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.InMemoryConfiguration.GetClients">
+            <summary>
+            Define which Apps will use thie IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.InMemoryConfiguration.GetUsers">
+            <summary>
+            Define which uses will use this IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LoginApi.Properties.Resources">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:LoginApi.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:LoginApi.Properties.Resources.Culture">
+            <summary>
+              重写当前线程的 CurrentUICulture 属性
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="M:Login.Controllers.ValuesController.Get">
+            <summary>
+            身份认证
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
