@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MediatR;
+using GoodApi.Extensions;
+using Consul;
 
 namespace GoodApi
 {
@@ -32,11 +34,16 @@ namespace GoodApi
             // Adding MediatR for Domain Events and Notifications
             services.AddMediatR(typeof(Startup));
 
+            // Adding ConsulClient Object
+            services.AddSingleton<IConsulClient>(c=>new ConsulClient(cc=> {
+                cc.Address = new Uri("http://localhost:8500");
+            }));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IConsulClient consul)
         {
             if (env.IsDevelopment())
             {
@@ -46,8 +53,8 @@ namespace GoodApi
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
+            app.UseConsul(Configuration,consul);
             app.UseMvc();
         }
     }

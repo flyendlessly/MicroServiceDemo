@@ -32,25 +32,25 @@ namespace OcelotDemo
                 .AddOcelot()
                 .AddConsul();
             //    .AddConfigStoredInConsul();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseHsts();
+            //}
 
             //app.UseHttpsRedirection();
             app.UseOcelot().Wait();//使用Ocelot中间件
-            app.UseMvc();
+            //app.UseMvc();
             
         }
     }

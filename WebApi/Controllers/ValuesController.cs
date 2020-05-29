@@ -79,7 +79,7 @@ namespace OrderApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/health")]
-        public IActionResult Heathle()
+        public IActionResult HeathCheck()
         {
             return Ok();
         }

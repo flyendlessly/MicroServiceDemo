@@ -50,7 +50,7 @@ namespace GoodApi.Controllers
         }
 
         [HttpGet("/health")]
-        public IActionResult Heathle()
+        public IActionResult HeathCheck()
         {
             return Ok();
         }
