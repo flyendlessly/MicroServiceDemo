@@ -13,6 +13,10 @@ using SoilHost.Algorithm;
 using System.Net;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SoilHost.Basic;
+using SoilHost.Basic.ConsoleApp1;
+using Application.MiddleWare;
+using System.Text;
 
 namespace SoilHost
 {
@@ -36,102 +40,88 @@ namespace SoilHost
 
             //Union_Find.start();
 
-            demo2();
+            //SynchronizationContextDemo.main();
+            var aa = Enum.IsDefined(typeof(TlevaltorCommandEnum), "0201");
+            var aa2  = Convert.ToInt32("0201", 16)==0x0201;
+            //TheadDemo.main3();
         }
 
-
-
-        //private static List<record> demo()
-        //{
-
-        //    var constr="Server=192.168.100.26;Database=hexun_sync_v2; User Id=mysql; Password=123456;Convert Zero Datetime=True;Allow Zero Datetime=True;default command timeout=20000;allow zero datetime=no";
-
-        //    using (IDbConnection connection = new MySqlConnection(constr))
-        //    {
-        //        return connection.Query<record>("select * from sync_record").ToList();
-        //    }
-
-        //}
-
-        public class record
-        {
-            public int id { get; set; }
-            public string table_name { get; set; }
-            public DateTime sync_time { get; set; }
-            public string operation { get; set; }
-            public int count { get; set; }
-        }
-
-        class Foo
-        {
-            int _answer;
-            bool _complete;
-            void A()
-            {
-                _answer = 123;
-                Thread.MemoryBarrier();    // Barrier 1
-                _complete = true;
-                Thread.MemoryBarrier();    // Barrier 2
-            }
-            void B()
-            {
-                Thread.MemoryBarrier();    // Barrier 3
-                if (_complete)
-                {
-                    Thread.MemoryBarrier();       // Barrier 4
-                    Console.WriteLine(_answer);
-                }
-            }
-        }
-
-        private static readonly Stopwatch Watch = new Stopwatch();
-        public static void demo2()
-        {
-            Watch.Start();
-            const string url1 = "https://www.csdn.net/";
-            const string url2 = "https://blog.csdn.net/wyf1554624584";
-            //两次调用 CountCharacters 方法（下载某网站内容，并统计字符的个数）
-            Task<int> result1 = CountCharactersAsync(1, url1);
-            Task<int> result2 = CountCharactersAsync(2, url2);
-            //三次调用 ExtraOperation 方法（主要是通过拼接字符串达到耗时操作）
-            for (var i = 0; i < 3; i++)
-            {
-                ExtraOperation(i + 1);
-            }
-            //控制台输出
-            Console.WriteLine($"{url1} 的字符个数：{result1.Result}");
-            Console.WriteLine($"{url2} 的字符个数：{result2.Result}");
-            Console.Read();
-        }
 
         /// <summary>
-        /// 统计字符个数
+        /// 梯控协议命令地址=基地址+命令
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="address"></param>
-        /// <returns></returns>
-        private static async Task<int> CountCharactersAsync(int id, string address)
+        public enum TlevaltorCommandEnum : int
         {
-            var wc = new WebClient();
-            Console.WriteLine($"开始调用 id = {id}：{Watch.ElapsedMilliseconds} ms");
-            var result = await wc.DownloadStringTaskAsync(address);
-            Console.WriteLine($"调用完成 id = {id}：{Watch.ElapsedMilliseconds} ms");
-            return result.Length;
-        }
+            /// <summary>
+            /// 开机上报
+            /// </summary>
+            OpenUpload = 0x0100,
 
-        /// <summary>
-        /// 额外操作
-        /// </summary>
-        /// <param name="id"></param>
-        private static void ExtraOperation(int id)
-        {
-            //这里是通过拼接字符串进行一些相对耗时的操作
-            var s = "";
-            for (var i = 0; i < 6000; i++)
-            {
-                s += i;
-            }
-            Console.WriteLine($"id = {id} 的 ExtraOperation 方法完成：{Watch.ElapsedMilliseconds} ms");
+            /// <summary>
+            /// 写控制楼层编号
+            /// </summary>
+            WriteFloorId = 0x0201,
+
+            /// <summary>
+            /// 读蓝牙名称
+            /// </summary>
+            ReadBluetoothName = 0x0202,
+
+            /// <summary>
+            /// 写蓝牙名称
+            /// </summary>
+            WriteBluetoothName = 0x0203,
+
+            /// <summary>
+            /// 读软硬件版本号
+            /// </summary>
+            ReadHardWareAndSoftWareVersion = 0x0204,
+
+            /// <summary>
+            /// 写服务器IP和端口号和登录方式
+            /// </summary>
+            WriteServerIPPortAndLoginMethod = 0x0205,
+
+            /// <summary>
+            /// 读服务器IP和端口号和登录方式
+            /// </summary>
+            ReadServerIPPortAndLoginMethod = 0x0206,
+
+            /// <summary>
+            /// 写服务器域名
+            /// </summary>
+            WriteServerDomain = 0x0207,
+
+            /// <summary>
+            /// 读服务器域名
+            /// </summary>
+            ReadServerDomain = 0x0208,
+
+            /// <summary>
+            /// 软重启
+            /// </summary>
+            SoftRestart = 0x0209,
+
+            /// <summary>
+            /// 读CCID号
+            /// </summary>
+            ReadCCIDNumber = 0x020A,
+
+            /// <summary>
+            /// 恢复出厂配置
+            /// </summary>
+            RecoveryFactorySetting = 0x020B,
+
+            /// <summary>
+            /// 心跳
+            /// </summary>
+            HearBeat = 0x0501,
+
+            /// <summary>
+            /// 触发上报
+            /// </summary>
+            TriggerUpload = 0x0600,
+
         }
     }
 }

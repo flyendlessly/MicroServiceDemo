@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.MiddleWare;
 using Class1.Model;
 using IoC;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -38,7 +39,8 @@ namespace LoginApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();//添加基于内存的缓存支持
+            //添加基于内存的缓存支持
+            services.AddMemoryCache();
 
             //防止CSRF
             services.AddAntiforgery(options => {
@@ -54,8 +56,7 @@ namespace LoginApi
             //    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             //});
 
-            // .NET Native DI Abstraction
-            RegisterServices(services);
+
 
             #region 认证
             #region 添加认证Cookie信息
@@ -196,6 +197,14 @@ namespace LoginApi
             {
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";//设置时间格式
             });
+
+            // Adding MediatR for Domain Events and Notifications
+            services.AddMediatR(typeof(Startup));
+
+            // .NET Native DI Abstraction
+            RegisterServices(services);
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -243,11 +252,16 @@ namespace LoginApi
             app.UseCustomExceptionMiddleware();
 
             //app.UseIdentityServer(); //IdentityServer4
+
             app.UseHttpsRedirection();
+
             //app.UseMiddleware<AuthMiddleware>();//自定义Auth验证缓存中间件，Login控制器暂时没将token存入缓存
+
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EvenMC:登录模块服务"); });
+
             app.UseMvc();
+
             //app.UseStaticFiles();//用于访问wwwroot下的文件 
         }
 

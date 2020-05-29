@@ -4,6 +4,23 @@
         <name>LoginApi</name>
     </assembly>
     <members>
+        <member name="T:LoginApi.Controllers.ApiController">
+            <summary>
+            BaseAPI控制器
+            </summary>
+        </member>
+        <member name="F:LoginApi.Controllers.ApiController._mediator">
+            <summary>
+            中介者
+            </summary>
+        </member>
+        <member name="M:LoginApi.Controllers.ApiController.Response(System.Object)">
+            <summary>
+            API反馈结果
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
         <member name="T:LoginApi.Controllers.LoginController">
             <summary>
             登录模块

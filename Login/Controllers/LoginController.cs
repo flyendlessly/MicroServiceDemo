@@ -12,6 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using MediatR;
+using Domain.Core.Notifications;
+using Domain.Core.Bus;
 
 namespace LoginApi.Controllers
 {
@@ -20,12 +23,14 @@ namespace LoginApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : ApiController
     {
         ILogger<LoginController> logger;
         IConfiguration Configuration;
 
-        public LoginController(ILogger<LoginController> logger, IConfiguration Configuration)
+        public LoginController(ILogger<LoginController> logger, IConfiguration Configuration,
+                 INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator
+                 ) :base(notifications,mediator)
         {
             this.logger = logger;
             this.Configuration = Configuration;
@@ -59,42 +64,42 @@ namespace LoginApi.Controllers
         // POST: api/Login
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login([FromBody] UserViewModel model)
+        public async Task<IActionResult> Login([FromBody] UserViewModel model)
         {
             try
             {
-                //模型验证后
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    //验证用户密码...(省略)
-                    model.Id = new Guid();
-                    var admin = model;
-                    
-                    if(admin!=null)
-                    {
-                        //注意此方法的第一个参数，必需与StartUp.cs中services.AddAuthentication的参数相同
-                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);//一定要声明AuthenticationScheme
-                        identity.AddClaim(new Claim(ClaimTypes.Name, admin.Account));
-                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()));
-                        //identity.AddClaim(new Claim(ClaimTypes.Role, admin.Role));
-                        //登入
-                        await HttpContext.SignInAsync(identity.AuthenticationType,
-                                  new ClaimsPrincipal(identity),
-                                  new AuthenticationProperties
-                                  {
-                                      IsPersistent = false,
+                    NotifyModelStateErrors();
+                    //握手
+                    //await HttpContext.ChallengeAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    //ModelState.AddModelError("", "用户名或密码错误！");
+                    return Response(model);
+                }
+
+                //验证用户密码...(省略)
+                model.Id = new Guid();
+                var admin = model;
+
+                if (admin != null)
+                {
+                    //注意此方法的第一个参数，必需与StartUp.cs中services.AddAuthentication的参数相同
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);//一定要声明AuthenticationScheme
+                    identity.AddClaim(new Claim(ClaimTypes.Name, admin.Account));
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()));
+                    //identity.AddClaim(new Claim(ClaimTypes.Role, admin.Role));
+                    //登入
+                    await HttpContext.SignInAsync(identity.AuthenticationType,
+                              new ClaimsPrincipal(identity),
+                              new AuthenticationProperties
+                              {
+                                  IsPersistent = false,
                                       //RedirectUri = "/Home/Index",
                                       ExpiresUtc = new System.DateTimeOffset(dateTime: DateTime.Now.AddHours(6)),
-                                  });
-                    }
-                    //更新登陆时间 ...
+                              });
                 }
-                else
-                {
-                    //握手
-                    await HttpContext.ChallengeAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                    ModelState.AddModelError("", "用户名或密码错误！");
-                }
+                //更新登陆时间 ...
+
                 return Ok();
             }
             catch (Exception ex)

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="2.4.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
@@ -26,7 +27,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Class1\Class1.csproj" />
-    <ProjectReference Include="..\IoC\IoC.csproj" />
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
+    <ProjectReference Include="..\IoC\Infra.CrossCutting.IoC.csproj" />
   </ItemGroup>
 
   <ItemGroup>

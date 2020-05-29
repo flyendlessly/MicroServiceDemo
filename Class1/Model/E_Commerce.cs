@@ -22,4 +22,6 @@ namespace Class1.Model
         [Required(ErrorMessage = "订单内容不能为空")]
         public string Content { get; set; }
     }
+
+
 }

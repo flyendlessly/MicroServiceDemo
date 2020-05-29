@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.6.2" />
-    <PackageReference Include="MediatR" Version="8.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Class1\Class1.csproj" />
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
   </ItemGroup>
 

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MediatR;
 
 namespace GoodApi
 {
@@ -27,6 +28,10 @@ namespace GoodApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ModelValidationAttribute>();
+
+            // Adding MediatR for Domain Events and Notifications
+            services.AddMediatR(typeof(Startup));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
