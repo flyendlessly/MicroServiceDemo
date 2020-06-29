@@ -39,6 +39,15 @@ namespace GoodApi
                 cc.Address = new Uri("http://localhost:8500");
             }));
 
+            services.AddAuthentication("Bearer").AddJwtBearer(r => {
+                //认证地址
+                r.Authority = "http://localhost:5000";
+                //权限标识
+                r.Audience = "secretapi";
+                //是否必需HTTPS
+                r.RequireHttpsMetadata = false;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

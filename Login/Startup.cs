@@ -108,7 +108,7 @@ namespace LoginApi
             #endregion
 
             #region OAuth2
-            //services.AddAuthentication(options =>k
+            //services.AddAuthentication(options => 
             //{
             //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -119,7 +119,7 @@ namespace LoginApi
             //{
             //    options.ClientId = "oauth.code";
             //    options.ClientSecret = "secret";
-            //    options.AuthorizationEndpoint = "https://localhost:44359/connect/authorize";
+            //    options.AuthorizationEndpoint = "https://localhost:44359/api/Login/Token";
             //    options.TokenEndpoint = "https://localhost:44359/connect/token";
             //    options.CallbackPath = "/signin-oauth";
             //    options.Scope.Add("openid");
@@ -134,7 +134,7 @@ namespace LoginApi
             //    // 3.Ticket接收完成之后触发
             //    options.Events.OnTicketReceived = context => Task.CompletedTask;
             //    // 4.Challenge时触发，默认跳转到OAuth服务器
-            //    // options.Events.OnRedirectToAuthorizationEndpoint = context => context.Response.Redirect(context.RedirectUri);
+            //    //options.Events.OnRedirectToAuthorizationEndpoint = context => context.Response.Redirect(context.RedirectUri);
             //});
             #endregion
             #endregion
@@ -146,17 +146,30 @@ namespace LoginApi
             //    options.AddPolicy("Client", policy => policy.RequireClaim("ClientType").Build());
             //    options.AddPolicy("Admin", policy => policy.RequireClaim("AdminType").Build());
             //});
+
+            //services.AddAuthentication()
+            //    .AddGoogle(options =>
+            //    {
+            //                    // register your IdentityServer with Google at https://console.developers.google.com
+            //                    // enable the Google+ API
+            //                    // set the redirect URI to http://localhost:5000/signin-google
+            //                    options.ClientId = "copy client ID from Google here";
+            //        options.ClientSecret = "copy client secret from Google here";
+            //    });
             #endregion
 
 
-            //IdentityServer4
-            //InMemoryConfiguration.Configuration = this.Configuration;
-            //services.AddIdentityServer()
-            //    .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
-            //    .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
-            //    .AddInMemoryClients(InMemoryConfiguration.GetClients())
-            //    .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
-            //    .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
+            //IdentityServer4配置
+            InMemoryConfiguration.Configuration = this.Configuration;
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
+                .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
+                //添加客户端：用于访问被保护的Api客户端
+                .AddInMemoryClients(InMemoryConfiguration.GetClients())
+                //API访问授权资源：受保护的Api资源
+                .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
+                //身份信息授权资源：允许哪些用户访问
+                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
 
             //swagger
             services.AddSwaggerGen(options=>
@@ -226,8 +239,7 @@ namespace LoginApi
             {
                 app.UseHsts();
             }
-            //app.UseAuthentication(); //添加认证中间件
-            //app.UseAuthorize();
+
             //处理HTTP:401异常
             app.UseStatusCodePages(new StatusCodePagesOptions()
             {
@@ -251,7 +263,12 @@ namespace LoginApi
             //处理全局异常 
             app.UseCustomExceptionMiddleware();
 
-            //app.UseIdentityServer(); //IdentityServer4
+            //IdentityServer4
+            app.UseIdentityServer();
+            //app.UseAuthorization();
+            //app.UseAuthentication(); //添加认证中间件
+            //app.UseAuthorize();
+
 
             app.UseHttpsRedirection();
 
@@ -261,8 +278,7 @@ namespace LoginApi
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EvenMC:登录模块服务"); });
 
             app.UseMvc();
-
-            //app.UseStaticFiles();//用于访问wwwroot下的文件 
+            app.UseStaticFiles();//用于访问wwwroot下的文件 
         }
 
         private static void RegisterServices(IServiceCollection services)

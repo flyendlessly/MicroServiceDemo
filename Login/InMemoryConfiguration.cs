@@ -21,9 +21,11 @@ namespace LoginApi
         {
             return new[]
             {
+                //clientservice:标识名称，CAS Client Service：显示名称，可以自定义
                 new ApiResource("clientservice", "CAS Client Service"),
                 new ApiResource("productservice", "CAS Product Service"),
-                new ApiResource("agentservice", "CAS Agent Service")
+                new ApiResource("agentservice", "CAS Agent Service"),
+                new ApiResource("secretapi","Secret Api")
             };
         }
 
@@ -55,6 +57,19 @@ namespace LoginApi
                     ClientSecrets = new [] { new Secret("agentsecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     AllowedScopes = new [] { "agentservice", "clientservice", "productservice" }
+                },
+                new Client()
+                {
+                    //客户端Id
+                     ClientId="apiClientCd",
+                     //客户端密码
+                     ClientSecrets={new Secret("apiSecret".Sha256()) },
+                     //客户端授权类型，ClientCredentials:客户端凭证方式
+                     AllowedGrantTypes=GrantTypes.ClientCredentials,
+                     //允许访问的资源
+                     AllowedScopes={
+                        "secretapi"
+                    }
                 }
             };
         }
