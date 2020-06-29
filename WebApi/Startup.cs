@@ -59,9 +59,9 @@ namespace OrderApi
             //jwt 令牌认证
             services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "http://localhost:10010";
-                options.RequireHttpsMetadata = false;
-                options.Audience = "productservice";
+                options.Authority = "http://localhost:10000"; //认证地址
+                options.RequireHttpsMetadata = false;//是否必需HTTPS
+                options.Audience = "secretapi";//权限标识  
 
             });
 
@@ -78,6 +78,7 @@ namespace OrderApi
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

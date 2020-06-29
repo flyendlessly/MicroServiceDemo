@@ -19,5 +19,17 @@ namespace OrderApi.Controllers
         {
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
+
+        /// <summary>
+        /// 受保护的Api
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/identity")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public object GetUserClaims()
+        {
+            return User.Claims.Select(r => new { r.Type, r.Value });
+        }
     }
 }

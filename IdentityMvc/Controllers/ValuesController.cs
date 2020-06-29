@@ -2,29 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.MiddleWare;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Login.Controllers
+namespace IdentityMvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public ValuesController()
-        {
-
-        }
-
-        /// <summary>
-        /// 身份认证
-        /// </summary>
-        /// <returns></returns>
         // GET api/values
-        //[Authorize]
         [HttpGet]
-        [Authorize(Policy = "Admin")]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
@@ -34,12 +21,6 @@ namespace Login.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            if(id==99)
-            {
-                throw new ArgumentNullException();
-            }
-            LogDiagnostic.SendLog();
-
             return "value";
         }
 
