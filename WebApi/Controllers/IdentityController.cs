@@ -25,7 +25,7 @@ namespace OrderApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/identity")]
+        [Route("/api/identityDemo")]
         [Microsoft.AspNetCore.Authorization.Authorize]
         public object GetUserClaims()
         {

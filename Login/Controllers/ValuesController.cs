@@ -24,7 +24,7 @@ namespace Login.Controllers
         // GET api/values
         //[Authorize]
         [HttpGet]
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
