@@ -34,6 +34,15 @@ namespace OrderApi
             //添加验证器
             services.AddSingleton<IValidator<Orders>, OrderValidation>();
 
+            //jwt 令牌认证
+            services.AddAuthentication("Bearer").AddJwtBearer( options =>
+            {
+                options.Authority = "http://localhost:10000"; //认证地址
+                options.RequireHttpsMetadata = false;//是否必需HTTPS
+                options.Audience = "secretapi";//权限标识  
+            });
+
+
             //注册Swagger生成器，定义一个和多个Swagger 文档
             services.AddSwaggerGen(c =>
             {
@@ -56,14 +65,6 @@ namespace OrderApi
                 }
             );
 
-            //jwt 令牌认证
-            services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = "http://localhost:10000"; //认证地址
-                options.RequireHttpsMetadata = false;//是否必需HTTPS
-                options.Audience = "secretapi";//权限标识  
-
-            });
 
             //services.AddDapperDataBase(ESqlDialect.MySQL, () => new MySqlConnection(Configuration.GetConnectionString("DefaultConnection")), true,
             // typeof(PluralizedAutoClassMapper<>), new[] { typeof(Services.DASCustomClassMapper.BaseUserClassMapper).Assembly });

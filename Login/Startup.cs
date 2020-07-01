@@ -163,7 +163,7 @@ namespace LoginApi
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
-                .AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
+                //.AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
                 //添加客户端：用于访问被保护的Api客户端
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
                 //API访问授权资源：受保护的Api资源

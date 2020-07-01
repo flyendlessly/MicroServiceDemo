@@ -68,7 +68,7 @@ namespace IdentityMvc.Controllers
                 return new JsonResult(new { err = token.Error });
             client.SetBearerToken(token.AccessToken);
             //资源api服务端口
-            string data = await client.GetStringAsync("https://localhost:10001/api/identity");
+            string data = await client.GetStringAsync("http://localhost:10001/api/Identity/demo");
             JArray json = JArray.Parse(data);
             return new JsonResult(json);
         }

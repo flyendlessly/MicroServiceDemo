@@ -10,7 +10,7 @@ namespace OrderApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class IdentityController : ControllerBase
     {
 
@@ -25,7 +25,7 @@ namespace OrderApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/api/identityDemo")]
+        [Route("demo")]
         [Microsoft.AspNetCore.Authorization.Authorize]
         public object GetUserClaims()
         {
