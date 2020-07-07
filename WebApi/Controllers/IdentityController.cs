@@ -31,5 +31,17 @@ namespace OrderApi.Controllers
         {
             return User.Claims.Select(r => new { r.Type, r.Value });
         }
+
+        /// <summary>
+        /// 受保护的Api(Claim为role==admin)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("demo_admin")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles ="admin")]
+        public object GetUserClaims2()
+        {
+            return User.Claims.Select(r => new { r.Type, r.Value });
+        }
     }
 }

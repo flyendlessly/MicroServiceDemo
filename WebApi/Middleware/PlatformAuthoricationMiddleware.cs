@@ -20,7 +20,6 @@ namespace OrderApi.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-
             Console.WriteLine("invoke");
             await _next.Invoke(context);
         }

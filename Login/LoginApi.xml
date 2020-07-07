@@ -48,19 +48,25 @@
         </member>
         <member name="M:LoginApi.InMemoryConfiguration.GetApiResources">
             <summary>
-            Define which APIs will use this IdentityServer
+            Define which APIs will use this IdentityServer 资源API
             </summary>
             <returns></returns>
         </member>
         <member name="M:LoginApi.InMemoryConfiguration.GetClients">
             <summary>
-            Define which Apps will use thie IdentityServer
+            Define which Apps will use thie IdentityServer 客户端信息
             </summary>
             <returns></returns>
         </member>
         <member name="M:LoginApi.InMemoryConfiguration.GetUsers">
             <summary>
             Define which uses will use this IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LoginApi.InMemoryConfiguration.GetIdentity">
+            <summary>
+            
             </summary>
             <returns></returns>
         </member>

@@ -56,8 +56,6 @@ namespace LoginApi
             //    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             //});
 
-
-
             #region 认证
             #region 添加认证Cookie信息
             //Cookie认证属于Form认证，并不属于HTTP标准验证。
@@ -157,8 +155,7 @@ namespace LoginApi
             //        options.ClientSecret = "copy client secret from Google here";
             //    });
             #endregion
-
-
+            
             //IdentityServer4配置
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddIdentityServer()
@@ -168,6 +165,8 @@ namespace LoginApi
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
                 //API访问授权资源：受保护的Api资源
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
+                //添加用户
+                .AddTestUsers(InMemoryConfiguration.GetUsers())
                 //身份信息授权资源：允许哪些用户访问
                 .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
 
@@ -216,8 +215,6 @@ namespace LoginApi
 
             // .NET Native DI Abstraction
             RegisterServices(services);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -229,7 +226,6 @@ namespace LoginApi
             //    log.LogWarning("this is a test log");
             //    return context.Response.WriteAsync("Hello Login. Take a look at your terminal to see the logging messages.");
             //});
-
             
             if (env.IsDevelopment())
             {
@@ -265,12 +261,15 @@ namespace LoginApi
 
             //IdentityServer4
             app.UseIdentityServer();
-            //app.UseAuthorization();
-            //app.UseAuthentication(); //添加认证中间件
-            //app.UseAuthorize();
-
 
             app.UseHttpsRedirection();
+
+            //在3.0之后微软明确的把授权功能提取到了Authorization中间件里，所以我们需要在UseAuthentication之后再次UseAuthorization。
+            //否则，当你使用授权功能比如使用[Authorize]属性的时候系统就会报错。
+            //app.UseAuthorization(); //就是授权，检测权限，在.net 2.1中是没有UseAuthorization方法的
+            //app.UseAuthorize();
+
+            app.UseAuthentication(); //添加认证中间件 鉴权，检测有没有登录，登录的是谁，赋值给User
 
             //app.UseMiddleware<AuthMiddleware>();//自定义Auth验证缓存中间件，Login控制器暂时没将token存入缓存
 

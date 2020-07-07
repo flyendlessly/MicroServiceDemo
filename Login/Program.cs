@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -23,6 +24,9 @@ namespace LoginApi
                 .WriteTo.Async(c => c.File("Logs/logs.txt",rollingInterval:RollingInterval.Day))
                 .CreateLogger();
             var config = new ConfigurationBuilder()
+                /*
+                 * host.json 之前只设置了http，加了https的设置，请求http端口重定向到https端口
+                 */
                .AddJsonFile("host.json", optional: true)
                .Build();
             try
@@ -43,9 +47,10 @@ namespace LoginApi
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args, IConfiguration config) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args)//默认加了Kestrel
                 .UseConfiguration(config)
                 .UseStartup<Startup>()
                 .UseSerilog();
+               
     }
 }

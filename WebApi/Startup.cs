@@ -35,11 +35,14 @@ namespace OrderApi
             services.AddSingleton<IValidator<Orders>, OrderValidation>();
 
             //jwt 令牌认证
-            services.AddAuthentication("Bearer").AddJwtBearer( options =>
+            services.AddAuthentication("Bearer")
+                //.AddJwtBearer[//options.Audience = "secretapi";//权限标识  ]
+                .AddIdentityServerAuthentication( options =>
             {
-                options.Authority = "http://localhost:10000"; //认证地址
+                options.Authority = "http://localhost:10000"; //ids4认证地址
                 options.RequireHttpsMetadata = false;//是否必需HTTPS
-                options.Audience = "secretapi";//权限标识  
+                options.ApiName = "secretapi";
+                //options.SupportedTokens = SupportedTokens.Both;
             });
 
 
@@ -52,6 +55,7 @@ namespace OrderApi
             //mvc + 验证
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddFluentValidation();
+
             // override modelstate
             services.Configure<ApiBehaviorOptions>(
                 options => {
@@ -64,7 +68,6 @@ namespace OrderApi
                     };
                 }
             );
-
 
             //services.AddDapperDataBase(ESqlDialect.MySQL, () => new MySqlConnection(Configuration.GetConnectionString("DefaultConnection")), true,
             // typeof(PluralizedAutoClassMapper<>), new[] { typeof(Services.DASCustomClassMapper.BaseUserClassMapper).Assembly });
@@ -84,17 +87,18 @@ namespace OrderApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();//鉴权[UseMvc放在前面就不起作用]
+
+            //app.UsePlatformAuthorication();
+
             app.UseMvc();
             app.UseSwagger();
-            app.UseAuthentication();
-            app.UsePlatformAuthorication();
             //启用中间件服务对swagger-ui，指定Swagger JSON终结点
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
-
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
@@ -27,47 +28,50 @@ namespace IdentityMvc.Controllers
             return "value";
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
 
         [HttpGet("GetData")]
-        public async Task<IActionResult> GetData()
+        public async Task<IActionResult> GetData(string type, string userName="", string password="")
         {
+            type = type ?? "client";
             var client = new HttpClient();
-            //ids4服务端口
             var disco = await client.GetDiscoveryDocumentAsync("http://localhost:10000");
             if (disco.IsError)
                 return new JsonResult(new { err = disco.Error });
-            var token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest()
+            TokenResponse token = null;
+            switch (type)
             {
-                //获取Token的地址
-                Address = disco.TokenEndpoint,
-                //客户端Id
-                ClientId = "apiClientCd",
-                //客户端密码
-                ClientSecret = "apiSecret",
-                //要访问的api资源
-                Scope = "secretapi"
-            });
+                case "client":
+                    token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest()
+                    {
+                        //获取Token的地址
+                        Address = disco.TokenEndpoint,
+                        //客户端Id
+                        ClientId = "apiClientCd",
+                        //客户端密码
+                        ClientSecret = "apiSecret",
+                        //要访问的api资源
+                        Scope = "secretapi"
+                    });
+                    break;
+                case "password":
+                    token = await client.RequestPasswordTokenAsync(new PasswordTokenRequest()
+                    {
+                        //获取Token的地址
+                        Address = disco.TokenEndpoint,
+                        //客户端Id
+                        ClientId = "apiClientPassword",
+                        //客户端密码
+                        ClientSecret = "apiSecret",
+                        //要访问的api资源
+                        Scope = "secretapi",
+                        UserName = userName,
+                        Password = password
+                    });
+                    break;
+            }
             if (token.IsError)
                 return new JsonResult(new { err = token.Error });
             client.SetBearerToken(token.AccessToken);
-            //资源api服务端口
             string data = await client.GetStringAsync("http://localhost:10001/api/Identity/demo");
             JArray json = JArray.Parse(data);
             return new JsonResult(json);
