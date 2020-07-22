@@ -100,6 +100,7 @@ namespace LoginApi
                         new Claim("eMail","904044929@qq.com")
                     },
                 },
+                //隐藏模式/简化模式
                 new Client()
                 {
                     //客户端Id
