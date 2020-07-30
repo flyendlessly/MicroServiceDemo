@@ -10,12 +10,13 @@ using DapperExtensions;
 using MySql.Data.MySqlClient;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using Domain;
-using Class1.Model;
 using System.Linq;
 using OrderApi.Middleware;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using EasyNetQ;
+using Application.IServices;
+using Application.Services;
 
 namespace OrderApi
 {
@@ -32,14 +33,19 @@ namespace OrderApi
         public void ConfigureServices(IServiceCollection services)
         {
             //添加验证器
-            services.AddSingleton<IValidator<Orders>, OrderValidation>();
+            //services.AddSingleton<IValidator<Orders>, OrderValidation>();
+
+            //RabbitMQ:EventBus (通过主题发布)
+            services.AddSingleton(RabbitHutch.CreateBus(Configuration["RabbitMQ:Dev"]));
+            // Ioc&Services
+            services.AddScoped<IOrderService, OrderService>();
 
             //jwt 令牌认证
             services.AddAuthentication("Bearer")
                 //.AddJwtBearer[//options.Audience = "secretapi";//权限标识  ]
                 .AddIdentityServerAuthentication( options =>
             {
-                options.Authority = "http://localhost:10000"; //ids4认证地址
+                options.Authority = "http://localhost:10000"; //ids4认证地址[LoginAPI:ids4示例]
                 options.RequireHttpsMetadata = false;//是否必需HTTPS
                 options.ApiName = "secretapi";
                 //options.SupportedTokens = SupportedTokens.Both;

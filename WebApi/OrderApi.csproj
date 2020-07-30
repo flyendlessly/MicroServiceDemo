@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="5.2.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="MailKit" Version="2.1.2" />
@@ -24,14 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Common\DapperExtensions\DapperExtensions.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="host.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties host_1json__JSONSchema="" Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

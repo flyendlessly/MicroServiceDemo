@@ -48,6 +48,36 @@
             根据触发的事件名（value.Key）和已订阅的事件处理集合（_eventCollection）进行匹对查找，匹配上的通过反射执行对应的消费方法
             </summary>
         </member>
+        <member name="P:Application.ViewModels.OrderMessage.id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.OrderMessage.orderId">
+            <summary>
+            订单编号
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.OrderMessage.total">
+            <summary>
+            订单总金额
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.OrderMessage.state">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.OrderMessage.userId">
+            <summary>
+            下单用户Id
+            </summary>
+        </member>
+        <member name="P:Application.ViewModels.OrderMessage.createOrderTime">
+            <summary>
+            订单生成时间
+            </summary>
+        </member>
         <member name="P:Application.ViewModels.UserViewModel.Account">
             <summary>
             账户名

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Class1.Model;
-using Domain.Validations;
 using FluentValidation;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
@@ -28,33 +26,28 @@ namespace OrderApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            var item = new Orders
-            {
-                Id = id,
-                Content = $"{id}的订单明细",
-            };
-            return JsonConvert.SerializeObject(item);
+            return Ok();
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] Orders value)
+        public IActionResult Post()
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    AddOrderValidation validationRules = new AddOrderValidation();
-                    var result = validationRules.Validate(value);
-                    if (!result.IsValid)
-                    {
-                        foreach (var failure in result.Errors)
-                        {
-                        }
-                    }
-                }
+                //if (ModelState.IsValid)
+                //{
+                //    AddOrderValidation validationRules = new AddOrderValidation();
+                //    var result = validationRules.Validate(value);
+                //    if (!result.IsValid)
+                //    {
+                //        foreach (var failure in result.Errors)
+                //        {
+                //        }
+                //    }
+                //}
                 
-                return Ok(value);
+                return Ok();
             }
             catch
             {

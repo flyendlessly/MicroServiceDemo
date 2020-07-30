@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+using EasyNetQ;
 namespace PublicClass.RabbitModel
 {
     public class TextMessage
@@ -9,4 +7,6 @@ namespace PublicClass.RabbitModel
         public string From { get; set; }
         public string Text { get; set; }
     }
+
+
 }
