@@ -4,12 +4,14 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>c52838c4-bd3b-4364-acc5-bcc26341cc58</UserSecretsId>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>E:\EvenWang\MyPrivate\MicroServiceDemo\Login\LoginApi.xml</DocumentationFile>
     <OutputPath>bin\Debug\</OutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
