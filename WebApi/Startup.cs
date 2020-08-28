@@ -17,12 +17,15 @@ using Microsoft.AspNetCore.Http;
 using EasyNetQ;
 using Application.IServices;
 using Application.Services;
+using OrderApi.Interface;
+using System;
+using Refit;
 
 namespace OrderApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, ILoggerFactory logger)
+        public Startup(IConfiguration configuration, ILoggerFactory logger,IHostingEnvironment env)
         {
             Configuration = configuration;
         }
@@ -50,6 +53,13 @@ namespace OrderApi
                 options.ApiName = "secretapi";
                 //options.SupportedTokens = SupportedTokens.Both;
             });
+
+            var settings = new RefitSettings();
+            services.AddRefitClient<IProductAPI>(settings)
+              .ConfigureHttpClient(c => {
+                  c.BaseAddress = new Uri("http://localhost:10000");
+                  c.Timeout = TimeSpan.FromMilliseconds(1000*5);
+              });
 
 
             //注册Swagger生成器，定义一个和多个Swagger 文档

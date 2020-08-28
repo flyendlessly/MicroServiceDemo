@@ -46,6 +46,16 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="T:LoginApi.Filters.ElevatorExceptionAttribute">
+            <summary>
+            异常处理
+            </summary>
+        </member>
+        <member name="T:LoginApi.InMemoryConfiguration">
+            <summary>
+            授权相关静态信息
+            </summary>
+        </member>
         <member name="M:LoginApi.InMemoryConfiguration.GetApiResources">
             <summary>
             Define which APIs will use this IdentityServer 资源API

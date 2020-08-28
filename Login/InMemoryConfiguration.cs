@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace LoginApi
 {
+    /// <summary>
+    /// 授权相关静态信息
+    /// </summary>
     public class InMemoryConfiguration
     {
         public static IConfiguration Configuration { get; set; }

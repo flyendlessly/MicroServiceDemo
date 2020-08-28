@@ -9,6 +9,8 @@ using EasyNetQ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OrderApi.Interface;
+using Refit;
 
 namespace OrderApi.Controllers
 {
@@ -17,18 +19,21 @@ namespace OrderApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService orderService;
+        private readonly IProductAPI productAPI;
         private readonly IBus bus;
-        public OrderController(IOrderService _orderService,IBus _bus)
+        public OrderController(IOrderService _orderService,IBus _bus,IProductAPI _productAPI)
         {
             orderService = _orderService;
             bus = _bus;
+            productAPI = _productAPI;
         }
 
         // GET: api/Order
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = productAPI.GetProduct().Result;
+            return result;
         }
 
         // GET: api/Order/5

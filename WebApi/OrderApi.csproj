@@ -21,6 +21,8 @@
     <PackageReference Include="MimeKit" Version="2.1.2" />
     <PackageReference Include="MySql.Data" Version="8.0.15" />
     <PackageReference Include="Ocelot" Version="13.0.0" />
+    <PackageReference Include="refit" Version="4.7.9" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="4.7.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 

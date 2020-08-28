@@ -50,6 +50,7 @@ namespace LoginApi
                 options.FormFieldName = "AntiForgery";
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
+
             //CORS
             //services.AddCors(options => {
             //    options.AddPolicy("CorsPolicy", builder => 
