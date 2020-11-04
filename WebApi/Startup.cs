@@ -25,7 +25,7 @@ namespace OrderApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, ILoggerFactory logger,IHostingEnvironment env)
+        public Startup(IConfiguration configuration, ILoggerFactory logger, IHostingEnvironment env)
         {
             Configuration = configuration;
         }
@@ -46,19 +46,21 @@ namespace OrderApi
             //jwt 令牌认证
             services.AddAuthentication("Bearer")
                 //.AddJwtBearer[//options.Audience = "secretapi";//权限标识  ]
-                .AddIdentityServerAuthentication( options =>
-            {
-                options.Authority = "http://localhost:10000"; //ids4认证地址[LoginAPI:ids4示例]
+                .AddIdentityServerAuthentication(options =>
+           {
+               options.Authority = "http://localhost:10000"; //ids4认证地址[LoginAPI:ids4示例]
                 options.RequireHttpsMetadata = false;//是否必需HTTPS
                 options.ApiName = "secretapi";
                 //options.SupportedTokens = SupportedTokens.Both;
             });
 
-            var settings = new RefitSettings();
-            services.AddRefitClient<IProductAPI>(settings)
-              .ConfigureHttpClient(c => {
-                  c.BaseAddress = new Uri("http://localhost:10000");
-                  c.Timeout = TimeSpan.FromMilliseconds(1000*5);
+            //Refit应用
+            //var settings = new RefitSettings();
+            services.AddRefitClient<IProductAPI>()
+              .ConfigureHttpClient(c =>
+              {
+                  c.BaseAddress = new Uri("http://localhost:10000");//远程服务调用接口
+                  c.Timeout = TimeSpan.FromMilliseconds(1000 * 5);
               });
 
 
@@ -74,11 +76,13 @@ namespace OrderApi
 
             // override modelstate
             services.Configure<ApiBehaviorOptions>(
-                options => {
-                    options.InvalidModelStateResponseFactory = (context) => {
-                        var errors = context.ModelState 
-                        .Values 
-                        .SelectMany(x => x.Errors .Select(p => p.ErrorMessage)) .ToList();
+                options =>
+                {
+                    options.InvalidModelStateResponseFactory = (context) =>
+                    {
+                        var errors = context.ModelState
+                        .Values
+                        .SelectMany(x => x.Errors.Select(p => p.ErrorMessage)).ToList();
                         var result = new { Code = "00009", Message = "验证错误（Even）", Errors = errors };
                         return new BadRequestObjectResult(result);
                     };

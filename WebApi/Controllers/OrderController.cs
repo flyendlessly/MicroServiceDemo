@@ -40,6 +40,7 @@ namespace OrderApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
+            var proInfo = productAPI.GetProduct(id).Result;
             var item = new OrderMessage
             {
                 id = 1,
@@ -47,6 +48,7 @@ namespace OrderApi.Controllers
                 createOrderTime = DateTime.Now,
                 state = "未支付",
                 total = 123.59M,
+                productInfos = proInfo,
                 userId = 10001
             };
             return Ok(item);

@@ -75,7 +75,7 @@ namespace SoilHost.AopDemo
         public static UserOperation GetInstance()
         {
             //if (oUserOpertion == null)
-            //    oUserOpertion = PolicyInjection.Create<UserOperation>();
+                //oUserOpertion = PolicyInjection.Create<UserOperation>();
 
             return oUserOpertion;
         }

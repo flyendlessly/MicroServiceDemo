@@ -5,11 +5,18 @@ using System.Threading.Tasks;
 using Refit;
 namespace OrderApi.Interface
 {
+    /// <summary>
+    /// Rfit应用：商品API调用
+    /// </summary>
     public interface IProductAPI
     {
-        //[Headers()]
-        [Post("/api/Values")]
+
+        //[Headers()] 请求头设置
+        [Get("/api/Values")]
         Task<IEnumerable<string>> GetProduct();
-        //Task<ResponseBody> GetProduct()
+
+
+        [Get("/api/Values/{id}")]
+        Task<string> GetProduct([AliasAs("id")] int id);
     }
 }

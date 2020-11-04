@@ -38,9 +38,9 @@ namespace Login.Controllers
             {
                 throw new ArgumentNullException();
             }
-            LogDiagnostic.SendLog();
+            //LogDiagnostic.SendLog();
 
-            return "value";
+            return "Pro"+id;
         }
 
         // POST api/values

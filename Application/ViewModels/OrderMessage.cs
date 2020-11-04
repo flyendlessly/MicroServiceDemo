@@ -31,6 +31,8 @@ namespace Application.ViewModels
         /// </summary>
         public int userId { get; set; }
 
+        public object productInfos { get; set; }
+
         /// <summary>
         /// 订单生成时间
         /// </summary>

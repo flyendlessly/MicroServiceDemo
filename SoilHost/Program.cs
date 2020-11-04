@@ -17,6 +17,7 @@ using SoilHost.Basic;
 using SoilHost.Basic.ConsoleApp1;
 using Application.MiddleWare;
 using System.Text;
+using SoilHost.AopDemo;
 
 namespace SoilHost
 {
@@ -46,10 +47,25 @@ namespace SoilHost
             //反射.
             //Emit.EmitDemo.Demo();
 
-            string aa = "";
-            RunCmd(@"start Bypass.exe", out aa);
+            //string aa = "";
+            //RunCmd(@"start Bypass.exe", out aa);
 
-            
+            try
+            {
+                //var oUserTest1 = new User() { Name = "test2222", PassWord = "yxj" };
+                //var oUserTest2 = new User() { Name = "test3333", PassWord = "yxj" };
+                //var oUser = UserOperation.GetInstance();
+                //oUser.Test(oUserTest1);
+                //oUser.Test2(oUserTest1, oUserTest2);
+
+                //new zkdemo().main();
+
+                RefOutInDemo.start();
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
         }
 
 
