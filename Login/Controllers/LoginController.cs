@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using MediatR;
 using Domain.Core.Notifications;
 using Domain.Core.Bus;
+using Microsoft.AspNetCore.Authorization;
+using Class1.Model;
 
 namespace LoginApi.Controllers
 {
@@ -57,7 +59,7 @@ namespace LoginApi.Controllers
         }
 
         /// <summary>
-        /// 用户认证登录
+        /// 用户认证登录 Cookie
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -93,9 +95,9 @@ namespace LoginApi.Controllers
                               new ClaimsPrincipal(identity),
                               new AuthenticationProperties
                               {
-                                  IsPersistent = false,
-                                      //RedirectUri = "/Home/Index",
-                                      ExpiresUtc = new System.DateTimeOffset(dateTime: DateTime.Now.AddHours(6)),
+                                    IsPersistent = false,
+                                    //RedirectUri = "/Home/Index",
+                                    ExpiresUtc = new System.DateTimeOffset(dateTime: DateTime.Now.AddHours(6)),
                               });
                 }
                 //更新登陆时间 ...
@@ -111,7 +113,7 @@ namespace LoginApi.Controllers
         }
 
         /// <summary>
-        /// 退出登录
+        /// 退出登录 Cookie
         /// </summary>
         /// <returns></returns>
         [HttpGet("/logout")]
@@ -149,7 +151,7 @@ namespace LoginApi.Controllers
                         {
                             //new Claim(ClaimTypes.Name, admin.Account),
                             //new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
-                            new Claim(JwtRegisteredClaimNames.Sub,admin.Role),//Subject,
+                            new Claim(JwtRegisteredClaimNames.Sub,admin.Role),//Subject, subject签发给的受众，在Issuer范围内是唯一的
                             new Claim(JwtRegisteredClaimNames.Jti,model.Id.ToString()),//JWT ID,JWT的唯一标识
                             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.Integer64),//Issued At，JWT颁发的时间，采用标准unix时间，用于验证过期
                         };
@@ -192,6 +194,48 @@ namespace LoginApi.Controllers
                 return Unauthorized();
             }
         }
+
+        /// <summary>
+        /// 验证领牌
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("TokenValidation")]
+        [Authorize]
+        //[Authorize(Policy = "Admin")]
+        public ActionResult<IEnumerable<string>> TokenValidation()
+        {
+            return new string[] { "Token Validation Success" };
+        }
+
+        /// <summary>
+        /// 解析JWT Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("TokenInfo")]
+        public ActionResult<JwtInfo> TokenInfo(string token)
+        {
+            if (token is null)
+                return null;
+
+            string tokenStr = token.Replace("Bearer ", "");
+
+            var handler = new JwtSecurityTokenHandler();
+
+            var payload = handler.ReadJwtToken(tokenStr).Payload;
+
+            var claims = payload.Claims;
+
+            JwtInfo info = new JwtInfo()
+            {
+                Jti = claims.First(claim => claim.Type == "jti")?.Value,
+                Sub = claims.First(claim => claim.Type == "sub")?.Value,
+                Iat = claims.First(claim => claim.Type == "iat")?.Value
+            };
+
+            return info;
+        }
+
 
         // PUT: api/Login/5
         [HttpPut("{id}")]

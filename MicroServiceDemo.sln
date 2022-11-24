@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotDemo", "OcelotDemo\Oc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodApi", "GoodApi\GoodApi.csproj", "{6AC73943-70D6-4104-AA54-6ABE1B7A29CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01Common", "01Common", "{44DAD053-BB2B-46E5-9946-22ED65C8A49F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Common", "01 Common", "{44DAD053-BB2B-46E5-9946-22ED65C8A49F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Infra", "02 Infra", "{959BB748-68BB-479A-BDD5-F7B6EACBD626}"
 EndProject
@@ -55,11 +55,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 Web", "06 Web", "{1E76F3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityMvc", "IdentityMvc\IdentityMvc.csproj", "{6A0E9AC4-0877-4292-89A1-958B776EED77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rabbit_Publisher", "Rabbit_Publisher\Rabbit_Publisher.csproj", "{3578C18E-A39E-4FD5-890C-5335FD004963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit_Publisher", "Rabbit_Publisher\Rabbit_Publisher.csproj", "{3578C18E-A39E-4FD5-890C-5335FD004963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicClass", "PublicClass\PublicClass.csproj", "{B150070C-2EE5-4ECA-BB04-985AACF19708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublicClass", "PublicClass\PublicClass.csproj", "{B150070C-2EE5-4ECA-BB04-985AACF19708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rabbit_Subscriber", "Rabbit_Subscriber\Rabbit_Subscriber.csproj", "{B8E01997-EE2E-4433-90EC-A57CE916925C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit_Subscriber", "Rabbit_Subscriber\Rabbit_Subscriber.csproj", "{B8E01997-EE2E-4433-90EC-A57CE916925C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

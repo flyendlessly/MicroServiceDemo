@@ -8,6 +8,7 @@ using Class1.Model;
 using IoC;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -59,13 +60,23 @@ namespace LoginApi
 
             #region 认证
             #region 添加认证Cookie信息
-            //Cookie认证属于Form认证，并不属于HTTP标准验证。
+            //1.Cookie认证属于Form认证，并不属于HTTP标准验证。
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
             //     {
             //         o.Cookie.Name = "_AdminTicketCookie";
             //         o.LoginPath = new PathString("/api/Login");
             //     });
+
+            //2.Cookie认证,自定义事件 CustomCookieAuthenticationEvents
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,o =>
+            //    {
+            //        o.Cookie.Name = "_AdminTicketCookie";
+            //        o.LoginPath = new PathString("/api/Login");
+            //        o.EventsType = typeof(CustomCookieAuthenticationEvents);
+            //    });
+            //services.AddScoped<CustomCookieAuthenticationEvents>();
 
             //openid
             //services.AddAuthentication(options =>
@@ -85,29 +96,43 @@ namespace LoginApi
             #endregion
 
             #region JwtBearer方式身份认证
-            //services.AddAuthentication(options=> {
-            //    options.DefaultAuthenticateScheme = "JwtBearer";
-            //    options.DefaultChallengeScheme = "JwtBearer";
-            //}).AddJwtBearer("JwtBearer",
-            //(jwtBearerOptions) =>
-            //{
-            //    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("this is my first jwt token demo")),//秘钥
-            //        ValidateIssuer = true,
-            //        ValidIssuer = @"https://localhost:44359",
-            //        ValidateAudience = true,
-            //        ValidAudience = "api",
-            //        ValidateLifetime = true,
-            //        ClockSkew = TimeSpan.FromMinutes(5)
-            //    };
-            //});
-            //services.AddAuthentication("Bearer").AddIdentityServerAuthentication()
+            //1.JwtBearer JWT Token
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer"; //JwtBearerDefaults.AuthenticationScheme
+                options.DefaultChallengeScheme = "JwtBearer";
+            }).AddJwtBearer("JwtBearer",
+                (jwtBearerOptions) =>
+                {
+                    //jwtBearerOptions.RequireHttpsMetadata = false; //获取或设置元数据地址或权限是否需要HTTPS，默认为true
+                    //jwtBearerOptions.SaveToken = false; //是否将信息存储在token中
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("this is my first jwt token demo")),//秘钥
+                        ValidateIssuer = true, //如果设置为True,JWT Token生成的时候，ValidIssuer必须和这里设置的一致。
+                        ValidIssuer = @"jwt token demo",
+                        ValidateAudience = true, //Audience 接收方
+                        ValidAudience = "api",
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(5),
+                        
+                    };
+                    //jwtBearerOptions.Events = new JwtBearerEvents()
+                    //{
+                    //    OnMessageReceived = context =>
+                    //    {
+                    //        context.Token = context.Request.Query["access_token"];
+                    //        return Task.CompletedTask;
+                    //    }
+                    //};
+                }
+            );
+            //services.AddAuthentication("Bearer").AddIdentityServerAuthentication();
             #endregion
 
             #region OAuth2
-            //services.AddAuthentication(options => 
+            //services.AddAuthentication(options =>
             //{
             //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -136,6 +161,7 @@ namespace LoginApi
             //    //options.Events.OnRedirectToAuthorizationEndpoint = context => context.Response.Redirect(context.RedirectUri);
             //});
             #endregion
+
             #endregion
 
             #region 授权
@@ -156,20 +182,20 @@ namespace LoginApi
             //        options.ClientSecret = "copy client secret from Google here";
             //    });
             #endregion
-            
+
             //IdentityServer4配置
-            InMemoryConfiguration.Configuration = this.Configuration;
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
-                //.AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
-                //添加客户端：用于访问被保护的Api客户端
-                .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                //API访问授权资源：受保护的Api资源
-                .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
-                //添加用户
-                .AddTestUsers(InMemoryConfiguration.GetUsers())
-                //身份信息授权资源：允许哪些用户访问
-                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
+            //InMemoryConfiguration.Configuration = this.Configuration;
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential() //开发时使用的签名 filename: "tmpKey.rsa"
+            //    //.AddTestUsers(InMemoryConfiguration.GetUsers().ToList())
+            //    //添加客户端：用于访问被保护的Api客户端
+            //    .AddInMemoryClients(InMemoryConfiguration.GetClients())
+            //    //API访问授权资源：受保护的Api资源
+            //    .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
+            //    //添加用户
+            //    .AddTestUsers(InMemoryConfiguration.GetUsers())
+            //    //身份信息授权资源：允许哪些用户访问
+            //    .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentity());
 
             //swagger
             services.AddSwaggerGen(options=>
@@ -261,19 +287,21 @@ namespace LoginApi
             app.UseCustomExceptionMiddleware();
 
             //IdentityServer4
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
 
             app.UseHttpsRedirection();
+            
+            //app.UseCookiePolicy(new CookiePolicyOptions() { }); //用于设置应用的 cookie的兼容性。
+            app.UseAuthentication(); //添加认证中间件 鉴权，检测有没有登录，登录的是谁，赋值给User
 
             //在3.0之后微软明确的把授权功能提取到了Authorization中间件里，所以我们需要在UseAuthentication之后再次UseAuthorization。
             //否则，当你使用授权功能比如使用[Authorize]属性的时候系统就会报错。
             //app.UseAuthorization(); //就是授权，检测权限，在.net 2.1中是没有UseAuthorization方法的
             //app.UseAuthorize();
 
-            app.UseAuthentication(); //添加认证中间件 鉴权，检测有没有登录，登录的是谁，赋值给User
+            
 
             //app.UseMiddleware<AuthMiddleware>();//自定义Auth验证缓存中间件，Login控制器暂时没将token存入缓存
-
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EvenMC:登录模块服务"); });
 
